@@ -1,14 +1,13 @@
 class Solution {
   public:
-    bool fun(vector<int>&arr,int low,int high){
-        if(high==arr.size()) return true;
-        if(arr[low]>arr[high]) return false;
-        return fun(arr,low+1,high+1);   
+    bool fun(vector<int>&arr,int i,int n){
+        if(i+1==arr.size()) return true;
+        else if(arr[i]>arr[i+1]) return false;
+        return fun(arr,i+1,n);   
     }
     bool isSorted(vector<int>& arr) {
         // code here
-        int n=arr.size();
-        if(n<=1) return true;
-        return fun(arr,0,1);
+        if(arr.size()<=1) return true;
+        return fun(arr,0,arr.size());
     }
 };
