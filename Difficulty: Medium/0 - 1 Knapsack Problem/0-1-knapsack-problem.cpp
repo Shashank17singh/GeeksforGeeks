@@ -1,21 +1,21 @@
 class Solution {
   public:
-    int fun(vector<int> &val,vector<int> &wt,int n,int i,int cap,vector<vector<int>> &dp){
-        if(i==n) return 0;
-        if(dp[i][cap]!=-1) return dp[i][cap];
-        if(wt[i]>cap) return dp[i][cap]=fun(val,wt,n,i+1,cap,dp);
-        int yes=val[i]+fun(val,wt,n,i+1,cap-wt[i],dp);
-        int no=fun(val,wt,n,i+1,cap,dp);
-        return dp[i][cap]=max(yes,no);
-    }
     int knapsack(int W, vector<int> &val, vector<int> &wt) {
         // code here
         int n=val.size();
-        vector<vector<int>>dp(n);
-        for(int i=0;i<n;i++){
-            vector<int>t(W+1,-1);
+        vector<vector<int>>dp(n+1);
+        int i,j;
+        for(int i=0;i<=n;i++){
+            vector<int>t(W+1);
             dp[i]=t;
         }
-        return fun(val,wt,n,0,W,dp);
+        for(j=0;j<=W;j++) dp[n][j]=0;
+        for(i=n-1;i>=0;i--){
+            for(j=0;j<=W;j++){
+                if(j<wt[i]) dp[i][j]=dp[i+1][j];
+                else dp[i][j]=max(val[i]+dp[i+1][j-wt[i]],dp[i+1][j]);
+            }
+        }
+        return dp[0][W];
     }
 };
